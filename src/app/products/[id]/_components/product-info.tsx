@@ -39,7 +39,7 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
   };
 
   return (
-    <div className="p-5">
+    <div className="relative z-50 mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-white p-4">
       <div className="flex items-center gap-[0.375rem]">
         <div className="relative h-6 w-6">
           <Image
@@ -93,7 +93,7 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
             <p className="text-sm font-semibold">
               {formatCurrency(Number(product.restaurant.deliveryFee))}
             </p>
-          ) : ( 
+          ) : (
             <p className="text-sm font-semibold">Grátis</p>
           )}
         </div>
@@ -102,13 +102,10 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
             <span className="text-xs">Entrega</span>
             <TimerIcon />
           </div>
-          {Number(product.restaurant.deliveryFee) > 0 ? (
-            <p className="text-sm font-semibold">
-              {formatCurrency(Number(product.restaurant.deliveryFee))}
-            </p>
-          ) : (
-            <p className="text-sm font-semibold">Grátis</p>
-          )}
+
+          <p className="text-sm font-semibold">
+            {product.restaurant.deliveryTimeMinutes} min
+          </p>
         </div>
       </Card>
 
@@ -120,7 +117,10 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
       </div>
       <div className="mt-6 space-y-3">
         <h3 className="font-semibold">Sucos</h3>
-        <ProductList products={complementaryProducts}/>
+        <ProductList products={complementaryProducts} />
+      </div>
+      <div className="mt-6 px-5">
+        <Button className="w-full font-semibold">Adicionar à sacola</Button>
       </div>
     </div>
   );
