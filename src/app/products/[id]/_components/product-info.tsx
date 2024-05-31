@@ -93,7 +93,7 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
             <p className="text-sm font-semibold">
               {formatCurrency(Number(product.restaurant.deliveryFee))}
             </p>
-          ) : (
+          ) : ( 
             <p className="text-sm font-semibold">Grátis</p>
           )}
         </div>
