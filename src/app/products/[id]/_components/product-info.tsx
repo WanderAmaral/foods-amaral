@@ -32,7 +32,7 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
   };
 
   const handleClickDecreaseQuantity = () => {
-    if (quantity <= 0) {
+    if (quantity <= 1) {
       return;
     }
     setQuantity((prevState) => prevState - 1);
@@ -72,7 +72,7 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
           <Button
             onClick={handleClickDecreaseQuantity}
             size={"sm"}
-            variant={quantity === 0 ? "ghost" : "default"}
+            variant={quantity === 1 ? "ghost" : "default"}
           >
             <ChevronLeftIcon size={15} />
           </Button>
