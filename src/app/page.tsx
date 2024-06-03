@@ -42,7 +42,7 @@ export default async function Home() {
 
       <div className="pt-6">
         <div className="flex items-center justify-between ">
-          <h1 className="text- py-4 font-bold">Restaurantes recomendados</h1>
+          <h1 className="text- py-4 font-bold">Recomendados</h1>
           <Button variant={"link"} className="h-fit p-0">
             Ver todos
             <ChevronRightIcon size={20} />
