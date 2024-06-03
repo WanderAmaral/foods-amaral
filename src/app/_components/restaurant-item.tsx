@@ -17,7 +17,7 @@ const RestaurantItem = ({ restaurant, className }: RestaurantItemProps) => {
       <div className="w-full space-y-3">
         {/* IMAGEM */}
         <div className="relative h-[136px] w-full">
-          <Link href={`/restaurant/${restaurant.id}`}>
+          <Link href={`/restaurants/${restaurant.id}`}>
             <Image
               src={restaurant.imageUrl}
               fill

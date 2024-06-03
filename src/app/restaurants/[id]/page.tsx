@@ -57,8 +57,8 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
             <span className=" text-base font-semibold">{restaurant.name}</span>
           </div>
           <div className="flex items-center gap-1 rounded-full bg-zinc-600 px-3 py-1 text-white">
-            <StarIcon size={16} />
-            <span>5.0</span>
+          <StarIcon size={12} className="fill-yellow-400 text-yellow-400" />
+            <span className=" text-sm">5.0</span>
           </div>
         </div>
         <Card className="mt-6 flex justify-around py-3">
