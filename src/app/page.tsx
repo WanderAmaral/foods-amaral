@@ -6,6 +6,7 @@ import Search from "./_components/search";
 import { Button } from "./_components/ui/button";
 import { db } from "./_lib/prisma";
 import RestaurantList from "./_components/restaurants-list";
+import Link from "next/link";
 
 export default async function Home() {
   const products = await db.product.findMany({
@@ -42,10 +43,12 @@ export default async function Home() {
 
       <div className="pt-6">
         <div className="flex items-center justify-between ">
-          <h1 className="text- py-4 font-bold">Recomendados</h1>
-          <Button variant={"link"} className="h-fit p-0">
-            Ver todos
-            <ChevronRightIcon size={20} />
+          <h1 className="text- py-4 font-bold">Recomendados recomendados</h1>
+          <Button asChild variant={"link"} className="h-fit p-0">
+            <Link href={"/restaurant/recommended"}>
+              Ver todos
+              <ChevronRightIcon size={20} />
+            </Link>
           </Button>
         </div>
         <RestaurantList />
