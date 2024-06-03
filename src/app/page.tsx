@@ -33,9 +33,11 @@ export default async function Home() {
       <div className="pt-6">
         <div className="flex items-center justify-between">
           <h1 className="text- py-4 font-bold">Pedidos recomendados</h1>
-          <Button variant={"link"} className="h-fit p-0">
-            Ver todos
-            <ChevronRightIcon size={20} />
+          <Button asChild variant={"link"} className="h-fit p-0">
+            <Link href={"/products/recommended"}>
+              Ver todos
+              <ChevronRightIcon size={20} />
+            </Link>
           </Button>
         </div>
         <ProductList products={products} />
@@ -43,7 +45,7 @@ export default async function Home() {
 
       <div className="pt-6">
         <div className="flex items-center justify-between ">
-          <h1 className="text- py-4 font-bold">Recomendados recomendados</h1>
+          <h1 className="text- py-4 font-bold">Restaurantes recomendados</h1>
           <Button asChild variant={"link"} className="h-fit p-0">
             <Link href={"/restaurant/recommended"}>
               Ver todos
