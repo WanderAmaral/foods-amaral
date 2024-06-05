@@ -17,7 +17,12 @@ import { useContext, useState } from "react";
 import { Card } from "@/app/_components/ui/card";
 import ProductList from "@/app/_components/product-list";
 import Cart from "@/app/_components/cart";
-import { Sheet, SheetContent } from "@/app/_components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/app/_components/ui/sheet";
 import { CartContext } from "@/app/_context/cart";
 
 interface ProductInfoProps {
@@ -45,7 +50,7 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
     setQuantity((prevState) => {
       if (prevState === 1) return 1;
 
-      return prevState - 1
+      return prevState - 1;
     });
   };
 
@@ -139,7 +144,10 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
         </Button>
       </div>
       <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
-        <SheetContent className="px-0">
+        <SheetContent className="px-4">
+          <SheetHeader>
+            <SheetTitle>Sacola</SheetTitle>
+          </SheetHeader>
           <Cart />
         </SheetContent>
       </Sheet>
