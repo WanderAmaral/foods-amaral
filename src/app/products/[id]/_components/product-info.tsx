@@ -13,10 +13,12 @@ import {
 } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
 import { Prisma } from "@prisma/client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Card } from "@/app/_components/ui/card";
 import ProductList from "@/app/_components/product-list";
 import Cart from "@/app/_components/cart";
+import { Sheet, SheetContent } from "@/app/_components/ui/sheet";
+import { CartContext } from "@/app/_context/cart";
 
 interface ProductInfoProps {
   product: Prisma.ProductGetPayload<{ include: { restaurant: true } }>;
@@ -26,18 +28,25 @@ interface ProductInfoProps {
 }
 
 const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
+  const { addProductToCart } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
-  
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const handleAddProductToCart = () => {
+    addProductToCart(product, quantity);
+    setIsCartOpen(true);
+  };
 
   const handleClickIncreaseQuantity = () => {
     setQuantity((prevState) => prevState + 1);
   };
 
   const handleClickDecreaseQuantity = () => {
-    if (quantity <= 1) {
-      return;
-    }
-    setQuantity((prevState) => prevState - 1);
+    setQuantity((prevState) => {
+      if (prevState === 1) return 1;
+
+      return prevState - 1
+    });
   };
 
   return (
@@ -122,8 +131,18 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
         <ProductList products={complementaryProducts} />
       </div>
       <div className="mt-6">
-        <Cart product={product}/>
+        <Button
+          onClick={handleAddProductToCart}
+          className="w-full font-semibold"
+        >
+          Adicionar à sacola
+        </Button>
       </div>
+      <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+        <SheetContent className="px-0">
+          <Cart />
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
