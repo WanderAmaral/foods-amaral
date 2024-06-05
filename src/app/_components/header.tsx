@@ -6,13 +6,9 @@ const Header = () => {
   return (
     <div className="flex justify-between pt-6">
       <Link href={"/"}>
-        <h1 className="text-xl font-bold uppercase text-red-400">fsw foods</h1>
+        <h1 className="text-xl font-bold uppercase text-red-500">fsw foods</h1>
       </Link>
-      <Button
-        size={"icon"}
-        variant={"outline"}
-        className="border-none bg-transparent"
-      >
+      <Button size={"icon"} variant={"outline"}>
         <MenuIcon size={30} />
       </Button>
     </div>

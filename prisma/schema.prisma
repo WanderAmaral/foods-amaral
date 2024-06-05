@@ -15,6 +15,7 @@ model Restaurant {
   deliveryTimeMinutes Int
   categories          Category[]
   products            Product[]
+ 
 }
 
 model Category {

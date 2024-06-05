@@ -16,6 +16,7 @@ import { Prisma } from "@prisma/client";
 import { useState } from "react";
 import { Card } from "@/app/_components/ui/card";
 import ProductList from "@/app/_components/product-list";
+import Cart from "@/app/_components/cart";
 
 interface ProductInfoProps {
   product: Prisma.ProductGetPayload<{ include: { restaurant: true } }>;
@@ -26,6 +27,7 @@ interface ProductInfoProps {
 
 const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
   const [quantity, setQuantity] = useState(1);
+  
 
   const handleClickIncreaseQuantity = () => {
     setQuantity((prevState) => prevState + 1);
@@ -119,8 +121,8 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
         <h3 className="font-semibold">Sucos</h3>
         <ProductList products={complementaryProducts} />
       </div>
-      <div className="mt-6 px-5">
-        <Button className="w-full font-semibold">Adicionar à sacola</Button>
+      <div className="mt-6">
+        <Cart product={product}/>
       </div>
     </div>
   );
