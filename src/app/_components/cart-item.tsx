@@ -58,7 +58,7 @@ const CartItem = ({ product }: CartItemProps) => {
             )}
           </div>
 
-          <div className="flex items-center gap-1 lg:gap-3">
+          <div className="flex items-center gap-3 lg:gap-3">
             <Button
               size="icon"
               variant={product.quantity === 1 ? "secondary" : "default"}
@@ -76,7 +76,7 @@ const CartItem = ({ product }: CartItemProps) => {
               className="h-8 w-8 lg:h-9 lg:w-9"
               onClick={handleIncreaseProduct}
             >
-              <ChevronRightIcon className="h-4 w-4 lg:h-5 lg:w-5" />
+              <ChevronRightIcon className=" lg:h-5 lg:w-5" />
             </Button>
           </div>
         </div>

@@ -121,6 +121,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         subtotalPrice,
         totalPrice,
         totalDiscounts,
+
         addProductToCart,
         decreaseProductToCart,
         increaseProductToCart,
