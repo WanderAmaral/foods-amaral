@@ -9,11 +9,12 @@ import {
   BikeIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  LoaderIcon,
   TimerIcon,
 } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
 import { Prisma } from "@prisma/client";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Card } from "@/app/_components/ui/card";
 import ProductList from "@/app/_components/product-list";
 import Cart from "@/app/_components/cart";
@@ -33,9 +34,27 @@ interface ProductInfoProps {
 }
 
 const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
-  const { addProductToCart } = useContext(CartContext);
+  const [submitIsLoading, setSubmitIsLoading] = useState(false);
+  const { addProductToCart, products } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  useEffect(() => {
+    if (products.length <= 0) {
+      setIsCartOpen(false);
+    }
+  }, [products]);
+
+  const handleClickFineshedBuy = () => {
+    setSubmitIsLoading(true);
+    try {
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsCartOpen(false);
+      setSubmitIsLoading(false);
+    }
+  };
 
   const handleAddProductToCart = () => {
     addProductToCart(product, quantity);
@@ -148,7 +167,19 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
           <SheetHeader>
             <SheetTitle>Sacola</SheetTitle>
           </SheetHeader>
-          <Cart />
+          <div className="flex h-full flex-col gap-4 py-5">
+            <Cart />
+            <Button
+              disabled={!product || submitIsLoading}
+              onClick={handleClickFineshedBuy}
+              className="w-full gap-3"
+            >
+              {submitIsLoading && (
+                <LoaderIcon className="wr-2 h-4 w-4 animate-spin" />
+              )}
+              Finalizar pedido
+            </Button>
+          </div>
         </SheetContent>
       </Sheet>
     </div>
