@@ -7,6 +7,7 @@ import Image from "next/image";
 import DiscountBadge from "@/app/_components/discount-badge";
 import {
   BikeIcon,
+  Check,
   ChevronLeftIcon,
   ChevronRightIcon,
   LoaderIcon,
@@ -25,6 +26,12 @@ import {
   SheetTitle,
 } from "@/app/_components/ui/sheet";
 import { CartContext } from "@/app/_context/cart";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+} from "@/app/_components/ui/dialog";
 
 interface ProductInfoProps {
   product: Prisma.ProductGetPayload<{ include: { restaurant: true } }>;
@@ -35,6 +42,7 @@ interface ProductInfoProps {
 
 const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
   const [submitIsLoading, setSubmitIsLoading] = useState(false);
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const { addProductToCart, products } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -48,6 +56,7 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
   const handleClickFineshedBuy = () => {
     setSubmitIsLoading(true);
     try {
+      setDialogIsOpen(true);
     } catch (error) {
       console.log(error);
     } finally {
@@ -182,6 +191,23 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
           </div>
         </SheetContent>
       </Sheet>
+
+      <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
+        <DialogContent className="flex w-[75%] flex-col items-center justify-center  gap4 rounded-xl">
+          <Check
+            className="bg-[#EA1D2C] text-white rounded-full p-4 h-16 w-16"
+            size={30}
+          />
+
+          <h1 className="font-bold text-lg">Pedido Efetuado!</h1>
+          <p className="text-center text-muted-foreground">Seu pedido foi realizado com sucesso.</p>
+          <DialogFooter className="w-full">
+            <DialogClose asChild>
+              <Button className="w-full">Confirmar</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
