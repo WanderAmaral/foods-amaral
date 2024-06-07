@@ -32,6 +32,16 @@ import {
   DialogContent,
   DialogFooter,
 } from "@/app/_components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/app/_components/ui/alert-dialog";
 
 interface ProductInfoProps {
   product: Prisma.ProductGetPayload<{ include: { restaurant: true } }>;
@@ -43,9 +53,13 @@ interface ProductInfoProps {
 const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
   const [submitIsLoading, setSubmitIsLoading] = useState(false);
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
-  const { addProductToCart, products } = useContext(CartContext);
-  const [quantity, setQuantity] = useState(1);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
+    useState(false);
+
+  const [quantity, setQuantity] = useState(1);
+
+  const { addProductToCart, products } = useContext(CartContext);
 
   useEffect(() => {
     if (products.length <= 0) {
@@ -65,9 +79,21 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
     }
   };
 
-  const handleAddProductToCart = () => {
-    addProductToCart(product, quantity);
+  const addToCart = ({ emptyCart }: { emptyCart?: boolean }) => {
+    addProductToCart({ product, quantity, emptyCart });
     setIsCartOpen(true);
+  };
+
+  const handleAddProductToCart = () => {
+    const hasDifferentRestaurantProduct = products.some(
+      (cartProduct) => cartProduct.restaurantId !== product.restaurantId,
+    );
+    if (hasDifferentRestaurantProduct) {
+      return setIsConfirmationDialogOpen(true);
+    }
+    addToCart({
+      emptyCart: false,
+    });
   };
 
   const handleClickIncreaseQuantity = () => {
@@ -193,21 +219,45 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
       </Sheet>
 
       <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
-        <DialogContent className="flex w-[75%] flex-col items-center justify-center  gap4 rounded-xl">
+        <DialogContent className="flex w-[75%] flex-col items-center justify-center  gap-4 rounded-xl">
           <Check
-            className="bg-[#EA1D2C] text-white rounded-full p-4 h-16 w-16"
+            className="h-16 w-16 rounded-full bg-[#EA1D2C] p-4 text-white"
             size={30}
           />
 
-          <h1 className="font-bold text-lg">Pedido Efetuado!</h1>
-          <p className="text-center text-muted-foreground">Seu pedido foi realizado com sucesso.</p>
+          <h1 className="text-lg font-bold">Pedido Efetuado!</h1>
+          <p className="text-center text-muted-foreground">
+            Seu pedido foi realizado com sucesso.
+          </p>
           <DialogFooter className="w-full">
             <DialogClose asChild>
               <Button className="w-full">Confirmar</Button>
             </DialogClose>
           </DialogFooter>
-        </DialogContent>
+      </DialogContent>
       </Dialog>
+
+      <AlertDialog
+        open={isConfirmationDialogOpen}
+        onOpenChange={setIsConfirmationDialogOpen}
+      >
+        <AlertDialogContent className="w-[85%] rounded-xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Você só pode adicionar itens de um restaurante por vez
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Deseja memso adicionar esse produto? Isso limpará sua sacola atual
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={() => addToCart({ emptyCart: true })}>
+              Esvaziar sacola e adicionar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

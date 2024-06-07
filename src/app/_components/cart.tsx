@@ -44,12 +44,12 @@ const Cart = () => {
                     Entrega
                   </span>
                   <p className="text-xs text-[#323232]">
-                    {Number(products[0].restaurant.deliveryFee) === 0 ? (
+                    {Number(products?.[0].restaurant.deliveryFee) === 0 ? (
                       <span className="bg-red-400 font-medium uppercase">
                         Grátis
                       </span>
                     ) : (
-                      formatCurrency(Number(products[0].restaurant.deliveryFee))
+                      formatCurrency(Number(products?.[0].restaurant.deliveryFee))
                     )}
                   </p>
                 </div>

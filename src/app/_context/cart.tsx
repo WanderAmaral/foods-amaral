@@ -16,7 +16,23 @@ interface ICartContext {
   subtotalPrice: number;
   totalPrice: number;
   totalDiscounts: number;
-  addProductToCart: (product: Product, quantity: number) => void;
+  addProductToCart: ({
+    product,
+    quantity,
+    emptyCart,
+  }: {
+    product: Prisma.ProductGetPayload<{
+      include: {
+        restaurant: {
+          select: {
+            deliveryFee: true;
+          };
+        };
+      };
+    }>;
+    quantity: number;
+    emptyCart?: boolean;
+  }) => void;
   decreaseProductToCart: (productId: string) => void;
   increaseProductToCart: (productId: string) => void;
   removeProductToCart: (productId: string) => void;
@@ -91,11 +107,27 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  const addProductToCart = (product: Product, quantity: number) => {
+  const addProductToCart = ({
+    product,
+    quantity,
+    emptyCart,
+  }: {
+    product: Prisma.ProductGetPayload<{
+      include: { restaurant: { select: { deliveryFee: true } } };
+    }>;
+    quantity: number;
+    emptyCart?: boolean;
+  }) => {
+    if (emptyCart) {
+      setProducts([]);
+    }
+
+    // VERIFICAR SE O PRODUTO JÁ ESTÁ NO CARRINHO
     const isProductAlreadyOnCart = products.some(
       (cartProduct) => cartProduct.id === product.id,
     );
 
+    // SE ELE ESTIVER, AUMENTAR A SUA QUANTIDADE
     if (isProductAlreadyOnCart) {
       return setProducts((prev) =>
         prev.map((cartProduct) => {
@@ -111,6 +143,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       );
     }
 
+    // SE NÃO, ADICIONÁ-LO COM A QUANTIDADE RECEBIDA
     setProducts((prev) => [...prev, { ...product, quantity: quantity }]);
   };
 
