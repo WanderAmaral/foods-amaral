@@ -7,10 +7,8 @@ import Image from "next/image";
 import DiscountBadge from "@/app/_components/discount-badge";
 import {
   BikeIcon,
-  Check,
   ChevronLeftIcon,
   ChevronRightIcon,
-  LoaderIcon,
   TimerIcon,
 } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
@@ -26,12 +24,6 @@ import {
   SheetTitle,
 } from "@/app/_components/ui/sheet";
 import { CartContext } from "@/app/_context/cart";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-} from "@/app/_components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -51,8 +43,6 @@ interface ProductInfoProps {
 }
 
 const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
-  const [submitIsLoading, setSubmitIsLoading] = useState(false);
-  const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
@@ -66,18 +56,6 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
       setIsCartOpen(false);
     }
   }, [products]);
-
-  const handleClickFineshedBuy = () => {
-    setSubmitIsLoading(true);
-    try {
-      setDialogIsOpen(true);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsCartOpen(false);
-      setSubmitIsLoading(false);
-    }
-  };
 
   const addToCart = ({ emptyCart }: { emptyCart?: boolean }) => {
     addProductToCart({ product, quantity, emptyCart });
@@ -130,7 +108,7 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
         <div className="flex flex-col">
           <div className="flex">
             <h2 className="text-xl font-semibold">
-              {formatCurrency(calculateProductTotalPrice(product))}
+              {formatCurrency(calculateProductTotalPrice(product))} 
             </h2>
             {product.discountPercentage && <DiscountBadge product={product} />}
           </div>
@@ -203,39 +181,10 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
             <SheetTitle>Sacola</SheetTitle>
           </SheetHeader>
           <div className="flex h-full flex-col gap-4 py-5">
-            <Cart />
-            <Button
-              disabled={!product || submitIsLoading}
-              onClick={handleClickFineshedBuy}
-              className="w-full gap-3"
-            >
-              {submitIsLoading && (
-                <LoaderIcon className="wr-2 h-4 w-4 animate-spin" />
-              )}
-              Finalizar pedido
-            </Button>
+            <Cart setIsOpen={setIsCartOpen} />
           </div>
         </SheetContent>
       </Sheet>
-
-      <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
-        <DialogContent className="flex w-[75%] flex-col items-center justify-center  gap-4 rounded-xl">
-          <Check
-            className="h-16 w-16 rounded-full bg-[#EA1D2C] p-4 text-white"
-            size={30}
-          />
-
-          <h1 className="text-lg font-bold">Pedido Efetuado!</h1>
-          <p className="text-center text-muted-foreground">
-            Seu pedido foi realizado com sucesso.
-          </p>
-          <DialogFooter className="w-full">
-            <DialogClose asChild>
-              <Button className="w-full">Confirmar</Button>
-            </DialogClose>
-          </DialogFooter>
-      </DialogContent>
-      </Dialog>
 
       <AlertDialog
         open={isConfirmationDialogOpen}

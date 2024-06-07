@@ -6,6 +6,7 @@ import { BikeIcon, StarIcon, TimerIcon } from "lucide-react";
 import { Card } from "@/app/_components/ui/card";
 import Image from "next/image";
 import ProductList from "@/app/_components/product-list";
+import SheetBag from "./components/sheet-bag";
 
 interface RestaurantPageProps {
   params: { id: string };
@@ -57,7 +58,7 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
             <span className=" text-base font-semibold">{restaurant.name}</span>
           </div>
           <div className="flex items-center gap-1 rounded-full bg-zinc-600 px-3 py-1 text-white">
-          <StarIcon size={12} className="fill-yellow-400 text-yellow-400" />
+            <StarIcon size={12} className="fill-yellow-400 text-yellow-400" />
             <span className=" text-sm">5.0</span>
           </div>
         </div>
@@ -113,6 +114,8 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
           <ProductList products={category.product} />
         </div>
       ))}
+
+      <SheetBag />
     </>
   );
 };
