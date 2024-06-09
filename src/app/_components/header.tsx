@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import SheetMenu from "./sheet-menu";
 
-
 const Header = () => {
   return (
     <div className="flex justify-between pt-6">

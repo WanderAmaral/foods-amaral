@@ -9,9 +9,12 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { Separator } from "./ui/separator";
-import CategoryListSheet from "./category-list-sheet";
+import CategoryItem from "./category-item";
+import { db } from "../_lib/prisma";
 
-const SheetMenu = () => {
+const SheetMenu = async () => {
+  const categories = await db.category.findMany({});
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -61,9 +64,16 @@ const SheetMenu = () => {
         <div className="py-5">
           <Separator />
         </div>
-        
-          <CategoryListSheet />
-        
+
+        <div className="flex flex-col items-start gap-3">
+          {categories.map((category) => (
+            <CategoryItem
+              category={category}
+              key={category.id}
+              className="bg- rounded-none shadow-none"
+            />
+          ))}
+        </div>
       </SheetContent>
     </Sheet>
   );
