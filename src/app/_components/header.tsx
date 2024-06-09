@@ -1,24 +1,23 @@
-'use client'
-import { MenuIcon } from "lucide-react";
-import { Button } from "./ui/button";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import Image from "next/image";
+import SheetMenu from "./sheet-menu";
+
 
 const Header = () => {
-
-  const {status, data} = useSession()
-
-  console.log(data)
-  console.log(status)
-
   return (
     <div className="flex justify-between pt-6">
-      <Link href={"/"}>
-        <h1 className="text-xl font-bold uppercase text-red-500">fsw foods</h1>
+      <Link href="/">
+        <div className="relative h-[30px] w-[100px]">
+          <Image
+            src="/logo.png"
+            alt="FSW Foods"
+            sizes="100%"
+            fill
+            className="object-cover"
+          />
+        </div>
       </Link>
-      <Button size={"icon"} variant={"outline"}>
-        <MenuIcon size={30} />
-      </Button>
+      <SheetMenu />
     </div>
   );
 };

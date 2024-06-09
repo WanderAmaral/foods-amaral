@@ -15,21 +15,21 @@ const Search = () => {
   };
 
   const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!search) return;
 
     router.push(`/restaurants?search=${search}`);
   };
 
   return (
-    <form className="flex gap-4" onSubmit={handleSearchSubmit}>
+    <form className="flex gap-3" onSubmit={handleSearchSubmit}>
       <Input
         placeholder="Buscar restaurantes"
         className="border-none"
         onChange={handleChange}
         value={search}
       />
-      <Button size={"icon"} type="submit">
+      <Button type="submit">
         <SearchIcon size={22} />
       </Button>
     </form>

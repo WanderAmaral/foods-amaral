@@ -1,15 +1,21 @@
 import { Category } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { cn } from "../_lib/utils";
 
 interface CategoryItemProps {
   category: Category;
+  className?: string;
 }
 
-const CategoryItem = ({ category }: CategoryItemProps) => {
+const CategoryItem = ({ category, className }: CategoryItemProps) => {
   return (
     <Link href={`/categories/${category.id}/products`}>
-      <div className="flex justify-center items-center gap-3 rounded-full px-4 py-3 shadow-md bg-white h-full">
+      <div
+        className={cn(
+          "flex h-full items-center justify-center gap-3 rounded-full bg-white px-4 py-3 shadow-md", className
+        )}
+      >
         <Image
           src={category.imageUrl}
           alt={category.name}
