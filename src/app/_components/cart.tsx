@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useContext, useState } from "react";
 import { CartContext } from "../_context/cart";
 import CartItem from "./cart-item";
@@ -7,7 +7,7 @@ import { Separator } from "./ui/separator";
 import { formatCurrency } from "../_helpers/price";
 import { notFound } from "next/navigation";
 import { Button } from "./ui/button";
-import { Check, Loader2, LoaderIcon } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +18,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/app/_components/ui/alert-dialog";
+import { createOrder } from "@/_actions/order";
+import { OrderStatus } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 interface CartProps {
   // eslint-disable-next-line no-unused-vars
@@ -25,8 +28,9 @@ interface CartProps {
 }
 
 const Cart = ({ setIsOpen }: CartProps) => {
-  const { products, totalPrice, totalDiscounts, subtotalPrice } =
+  const { products, totalPrice, totalDiscounts, subtotalPrice, clearCart } =
     useContext(CartContext);
+  const { data } = useSession();
 
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
@@ -35,14 +39,25 @@ const Cart = ({ setIsOpen }: CartProps) => {
     return notFound();
   }
 
-  const handleFinishOrderClick = () => {
+  const handleFinishOrderClick = async () => {
+    const restaurant = products?.[0].restaurant;
     try {
+      if (!data?.user) return;
       setIsSubmitLoading(true);
+      await createOrder({
+        subtotalPrice,
+        totalDiscounts,
+        totalPrice,
+        deliveryFee: restaurant.deliveryFee,
+        deliveryTimeMinutes: restaurant.deliveryTimeMinutes,
+        restaurant: { connect: { id: restaurant.id } },
+        status: OrderStatus.CONFIRMED,
+        user: { connect: { id: data?.user.id } },
+      });
       setIsOpen(false);
+      clearCart();
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsSubmitLoading(false);
     }
   };
 
@@ -117,22 +132,15 @@ const Cart = ({ setIsOpen }: CartProps) => {
               </Card>
             </div>
             <Button
-              disabled={isSubmitLoading}
               onClick={() => setIsConfirmDialogOpen(true)}
-              className="w-full gap-3"
+              className="w-full"
             >
-              {isSubmitLoading && (
-                <LoaderIcon className="wr-2 h-4 w-4 animate-spin" />
-              )}
               Finalizar pedido
             </Button>
           </div>
         )}
       </div>
-      <AlertDialog
-        open={isConfirmDialogOpen}
-        onOpenChange={setIsConfirmDialogOpen}
-      >
+      <AlertDialog open={isConfirmDialogOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent className=" flex w-[85%] flex-col rounded-xl ">
           <AlertDialogHeader>
             <div className="flex justify-center">
