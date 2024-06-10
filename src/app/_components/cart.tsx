@@ -18,7 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/app/_components/ui/alert-dialog";
-import { createOrder } from "@/_actions/order";
+import { createOrder } from "@/app/_actions/order";
 import { OrderStatus } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
@@ -53,6 +53,14 @@ const Cart = ({ setIsOpen }: CartProps) => {
         restaurant: { connect: { id: restaurant.id } },
         status: OrderStatus.CONFIRMED,
         user: { connect: { id: data?.user.id } },
+        products: {
+          createMany: {
+            data: products.map((product) => ({
+              productId: product.id,
+              quantity: product.quantity,
+            })),
+          },
+        },
       });
       setIsOpen(false);
       clearCart();
