@@ -31,9 +31,16 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const { data, status } = useSession();
+
+  const pathname = usePathname();
+
+  const isActive = (path: string) => {
+    return pathname === path;
+  };
 
   const handleClickLogIn = () => {
     signIn();
@@ -131,6 +138,7 @@ const Header = () => {
               <Button
                 asChild
                 className="flex w-full items-center justify-start gap-3 rounded-3xl"
+                variant={`${isActive("/") ? "default" : "ghost"}`}
               >
                 <Link href={"/"}>
                   <HomeIcon size={16} />
@@ -138,24 +146,30 @@ const Header = () => {
                 </Link>
               </Button>
             </SheetClose>
-            <SheetTrigger asChild>
+            <SheetClose asChild>
               <Button
+                asChild
                 className="flex w-full items-center justify-start gap-3 rounded-3xl"
-                variant={"ghost"}
+                variant={`${isActive("/myrequest") ? "default" : "ghost"}`}
               >
-                <ScrollText size={16} />
-                Meus pedidos
+                <Link href={"/myrequest"}>
+                  <ScrollText size={16} />
+                  Meus pedidos
+                </Link>
               </Button>
-            </SheetTrigger>
-            <SheetTrigger asChild>
+            </SheetClose>
+            <SheetClose asChild>
               <Button
+                asChild
                 className="flex w-full items-center justify-start gap-3 rounded-3xl"
-                variant={"ghost"}
+                variant={`${isActive("/restaurants-favorite") ? "default" : "ghost"}`}
               >
-                <Heart size={16} />
-                Restaurantes Favoritos
+                <Link href={"/restaurants-favorite"}>
+                  <Heart size={16} />
+                  Restaurantes Favoritos
+                </Link>
               </Button>
-            </SheetTrigger>
+            </SheetClose>
           </div>
           <div className="py-5">
             <Separator />
