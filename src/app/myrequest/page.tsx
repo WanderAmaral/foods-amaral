@@ -13,17 +13,19 @@ const MyResquest = async () => {
   }
 
   const orders = await db.order.findMany({
-    include: { restaurant: true, products: true },
+    include: { restaurant: true, products: { include: { product: true } } },
   });
 
   return (
     <div className="px-5">
       <Header />
 
-      <h1 className="py-5 text-xl font-semibold">Meus pedidos</h1>
+      <h1 className="py-5 text-xl font-semibold ">Meus pedidos</h1>
+      <div className="flex flex-col gap-5">
       {orders.map((order) => (
-        <OrderCard order={order} key={order.id} />
+          <OrderCard order={order} key={order.id} />
       ))}
+      </div>
     </div>
   );
 };
