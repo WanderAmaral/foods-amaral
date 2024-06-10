@@ -1,10 +1,13 @@
+"use client";
 import { Badge } from "@/app/_components/ui/badge";
 import { Button } from "@/app/_components/ui/button";
 import { Card } from "@/app/_components/ui/card";
 import { Separator } from "@/app/_components/ui/separator";
+import { formatCurrency } from "@/app/_helpers/price";
 import { Prisma } from "@prisma/client";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface OrderCardProps {
   order: Prisma.OrderGetPayload<{
@@ -38,22 +41,28 @@ const OrderCard = ({ order }: OrderCardProps) => {
               </span>
             </div>
             <div className="flex items-end justify-end">
-              <ChevronRight />
+              <Link href={`/restaurants/${order.restaurantId}`}>
+                <ChevronRight />
+              </Link>
             </div>
           </div>
           <Separator className="my-4" />
           {order.products.map((item) => (
-            <div key={item.id} className="flex gap-2 items-center">
-              <Badge  className="text-white bg-[#7E8392]">
-                {item.quantity}
-              </Badge>
-              <span className=" text-muted-foreground text-sm">{item?.product?.name}</span>
+            <div key={item.id} className="flex items-center gap-2">
+              <Badge className="bg-[#7E8392] text-white">{item.quantity}</Badge>
+              <span className=" text-sm text-muted-foreground">
+                {item?.product?.name}
+              </span>
             </div>
           ))}
           <Separator className="my-4" />
-          <div className="flex justify-between items-center pb-3">
-            <p className="text-sm">R$: {Number(order.totalPrice)}</p>
-            <Button variant={'ghost'} className="text-red-600 font-semibold">Adicionar a sacola</Button>
+          <div className="flex items-center justify-between pb-3">
+            <p className="text-sm">
+              R$: {formatCurrency(Number(order.totalPrice))}
+            </p>
+            <Button variant={"ghost"} className="font-semibold text-red-600">
+              Adicionar a sacola
+            </Button>
           </div>
         </div>
       </Card>
