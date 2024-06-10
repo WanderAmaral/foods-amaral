@@ -9,11 +9,19 @@ interface CategoriesPageProps {
 
 const CategoriesPage = async ({ params: { id } }: CategoriesPageProps) => {
   const category = await db.category.findUnique({
-    where: { id },
+    where: {
+      id,
+    },
     include: {
-      product: {
+      products: {
+        include: {
+          restaurant: {
+            select: {
+              name: true,
+            },
+          },
+        },
         take: 10,
-        include: { restaurant: { select: { name: true } } },
       },
     },
   });
@@ -28,7 +36,7 @@ const CategoriesPage = async ({ params: { id } }: CategoriesPageProps) => {
 
       <h2 className="py-3 text-lg font-semibold">{category?.name}</h2>
       <div className="grid grid-cols-2 gap-6">
-        {category?.product.map((product) => (
+        {category?.products.map((product) => (
           <ProductItem key={product.id} product={product} />
         ))}
       </div>

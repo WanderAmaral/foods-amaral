@@ -14,23 +14,36 @@ interface RestaurantPageProps {
 
 const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
   const restaurant = await db.restaurant.findUnique({
-    where: { id },
+    where: {
+      id,
+    },
     include: {
       categories: {
+        orderBy: {
+          createdAt: "desc",
+        },
         include: {
-          product: {
-            where: { restaurantId: id },
-            take: 10,
-            include: { restaurant: { select: { name: true } } },
+          products: {
+            where: {
+              restaurantId: id,
+            },
+            include: {
+              restaurant: {
+                select: {
+                  name: true,
+                },
+              },
+            },
           },
         },
       },
       products: {
-        where: { restaurantId: id },
         take: 10,
         include: {
           restaurant: {
-            select: { name: true },
+            select: {
+              name: true,
+            },
           },
         },
       },
@@ -111,7 +124,7 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
       {restaurant.categories.map((category) => (
         <div className="mt-4 px-5" key={category.id}>
           <h2 className="py-2 text-lg  font-semibold">{category.name}</h2>
-          <ProductList products={category.product} />
+          <ProductList products={category.products} />
         </div>
       ))}
 
