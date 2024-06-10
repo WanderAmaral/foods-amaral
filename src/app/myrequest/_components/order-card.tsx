@@ -47,14 +47,18 @@ const OrderCard = ({ order }: OrderCardProps) => {
             </div>
           </div>
           <Separator className="my-4" />
-          {order.products.map((item) => (
-            <div key={item.id} className="flex items-center gap-2">
-              <Badge className="bg-[#7E8392] text-white">{item.quantity}</Badge>
-              <span className=" text-sm text-muted-foreground">
-                {item?.product?.name}
-              </span>
-            </div>
-          ))}
+          <div className="flex flex-col gap-2">
+            {order.products.map((item) => (
+              <div key={item.id} className="flex items-center gap-2">
+                <Badge className="bg-[#7E8392] text-white">
+                  {item.quantity}
+                </Badge>
+                <span className=" text-sm text-muted-foreground">
+                  {item?.product?.name}
+                </span>
+              </div>
+            ))}
+          </div>
           <Separator className="my-4" />
           <div className="flex items-center justify-between pb-3">
             <p className="text-sm">
