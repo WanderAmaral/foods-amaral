@@ -35,7 +35,6 @@ import { usePathname } from "next/navigation";
 
 const Header = () => {
   const { data, status } = useSession();
-
   const pathname = usePathname();
 
   const isActive = (path: string) => {
@@ -65,69 +64,68 @@ const Header = () => {
       </Link>
       <Sheet>
         <SheetTrigger asChild>
-          <Button size={"icon"} variant={"ghost"}>
+          <div className="icon-button">
             <MenuIcon size={22} />
-          </Button>
+          </div>
         </SheetTrigger>
-
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Menu</SheetTitle>
           </SheetHeader>
           <div className="flex items-center justify-between pt-5">
             {data?.user ? (
-              <>
-                <div className="flex items-center gap-2 shadow-red-600">
-                  <Avatar>
-                    <AvatarImage src={data.user?.image as string | undefined} />
-                    <AvatarFallback className=" uppercase">
-                      {data.user?.name?.[0]}
-                      {data.user?.name?.[1]}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className=" font-semibold">Olá, {data.user?.name}</span>
-                </div>
-              </>
+              <div className="flex items-center gap-2 shadow-red-600">
+                <Avatar>
+                  <AvatarImage src={data.user?.image as string | undefined} />
+                  <AvatarFallback className="uppercase">
+                    {data.user?.name?.[0]}
+                    {data.user?.name?.[1]}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="font-semibold">Olá, {data.user?.name}</span>
+              </div>
             ) : (
-              <>
-                <h1 className=" font-semibold">Olá. Faça seu login!</h1>
-              </>
+              <h1 className="font-semibold">Olá. Faça seu login!</h1>
             )}
             {status === "unauthenticated" && (
-              <Button size={"icon"}>
+              <div>
                 <AlertDialog>
-                  <AlertDialogTrigger>
-                    <LogIn />
-                    <AlertDialogContent className="w-[85%] rounded-xl">
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Faça login na plataforma
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Conecte-se usando sua conta do Google ou Github
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <div className="flex items-center justify-center gap-3 ">
-                        <Button
-                          variant={"outline"}
-                          className="flex w-full items-center gap-1"
-                        >
-                          <Github size={14} />
-                          Github
-                        </Button>
-                        <Button
-                          variant={"outline"}
-                          className="flex w-full items-center gap-1"
-                          onClick={handleClickLogIn}
-                        >
-                          <Mail size={14} />
-                          Google
-                        </Button>
-                      </div>
-                    </AlertDialogContent>
+                  <AlertDialogTrigger asChild>
+                    <div className="icon-button">
+                      <Button size={"icon"}>
+                        <LogIn />
+                      </Button>
+                    </div>
                   </AlertDialogTrigger>
+                  <AlertDialogContent className="w-[85%] rounded-xl">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Faça login na plataforma
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Conecte-se usando sua conta do Google ou Github
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <div className="flex items-center justify-center gap-3">
+                      <Button
+                        variant={"outline"}
+                        className="flex w-full items-center gap-1"
+                      >
+                        <Github size={14} />
+                        Github
+                      </Button>
+                      <Button
+                        variant={"outline"}
+                        className="flex w-full items-center gap-1"
+                        onClick={handleClickLogIn}
+                      >
+                        <Mail size={14} />
+                        Google
+                      </Button>
+                    </div>
+                  </AlertDialogContent>
                 </AlertDialog>
-              </Button>
+              </div>
             )}
           </div>
           <div className="py-5">
@@ -135,46 +133,42 @@ const Header = () => {
           </div>
           <div className="flex flex-col gap-4">
             <SheetClose asChild>
-              <Button
-                asChild
-                className="flex w-full items-center justify-start gap-3 rounded-3xl"
-                variant={`${isActive("/") ? "default" : "ghost"}`}
-              >
-                <Link href={"/"}>
+              <Link href={"/"}>
+                <Button
+                  className="flex w-full items-center justify-start gap-3 rounded-3xl"
+                  variant={`${isActive("/") ? "default" : "ghost"}`}
+                >
                   <HomeIcon size={16} />
                   Inicio
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </SheetClose>
             <SheetClose asChild>
-              <Button
-                asChild
-                className="flex w-full items-center justify-start gap-3 rounded-3xl"
-                variant={`${isActive("/myrequest") ? "default" : "ghost"}`}
-              >
-                <Link href={"/myrequest"}>
+              <Link href={"/myrequest"}>
+                <Button
+                  className="flex w-full items-center justify-start gap-3 rounded-3xl"
+                  variant={`${isActive("/myrequest") ? "default" : "ghost"}`}
+                >
                   <ScrollText size={16} />
                   Meus pedidos
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </SheetClose>
             <SheetClose asChild>
-              <Button
-                asChild
-                className="flex w-full items-center justify-start gap-3 rounded-3xl"
-                variant={`${isActive("/restaurants-favorite") ? "default" : "ghost"}`}
-              >
-                <Link href={"/restaurants-favorite"}>
+              <Link href={"/restaurants-favorite"}>
+                <Button
+                  className="flex w-full items-center justify-start gap-3 rounded-3xl"
+                  variant={`${isActive("/restaurants-favorite") ? "default" : "ghost"}`}
+                >
                   <Heart size={16} />
                   Restaurantes Favoritos
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </SheetClose>
           </div>
           <div className="py-5">
             <Separator />
           </div>
-
           {status === "authenticated" && (
             <Button
               className="flex w-full items-center justify-start gap-3 rounded-3xl"

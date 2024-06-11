@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "./_context/cart";
 import AuthProvider from "./_providers/next-auth";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>{children}</CartProvider>
         </AuthProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -20,8 +20,8 @@ const MyResquest = async () => {
     <div className="px-5">
       <Header />
 
-      <h1 className="py-5 text-xl font-semibold ">Meus pedidos</h1>
-      <div className="flex flex-col gap-5">
+      <h1 className="py-5 text-xl font-semibold">Meus pedidos</h1>
+      <div className="flex flex-col pb-5 gap-5">
       {orders.map((order) => (
           <OrderCard order={order} key={order.id} />
       ))}
