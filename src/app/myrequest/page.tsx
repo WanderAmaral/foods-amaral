@@ -13,7 +13,13 @@ const MyResquest = async () => {
   }
 
   const orders = await db.order.findMany({
-    include: { restaurant: true, products: { include: { product: true } } },
+    include: {
+      restaurant: true,
+      products: {
+        include: { product: true },
+      },
+    },
+    orderBy: {createdAt: 'desc'}
   });
 
   return (
@@ -21,10 +27,10 @@ const MyResquest = async () => {
       <Header />
 
       <h1 className="py-5 text-xl font-semibold">Meus pedidos</h1>
-      <div className="flex flex-col pb-5 gap-5">
-      {orders.map((order) => (
+      <div className="flex flex-col gap-5 pb-5">
+        {orders.map((order) => (
           <OrderCard order={order} key={order.id} />
-      ))}
+        ))}
       </div>
     </div>
   );
