@@ -3,12 +3,13 @@ import { Avatar, AvatarImage } from "@/app/_components/ui/avatar";
 import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Separator } from "@/app/_components/ui/separator";
+import { ToastAction } from "@/app/_components/ui/toast";
+import { toast } from "@/app/_components/ui/use-toast";
 import { CartContext } from "@/app/_context/cart";
 import { formatCurrency } from "@/app/_helpers/price";
 import { OrderStatus, Prisma } from "@prisma/client";
 import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
 interface OrderCardProps {
@@ -34,7 +35,6 @@ const getOrderStatusLabel = (status: OrderStatus) => {
 
 const OrderCard = ({ order }: OrderCardProps) => {
   const { addProductToCart } = useContext(CartContext);
-  const router = useRouter();
 
   const handleAddRestoredProductToCart = () => {
     for (const orderProduct of order.products) {
@@ -46,7 +46,16 @@ const OrderCard = ({ order }: OrderCardProps) => {
         quantity: orderProduct.quantity,
       });
     }
-    router.push(`/restaurants/${order.restaurantId}`);
+    toast({
+      title: "Sucesso",
+      description: "Pedido criado!",
+      action: (
+        <Link href={`/restaurants/${order.restaurantId}`} className="">
+          <ToastAction altText="Ver pedido">Ver Pedido</ToastAction>
+        </Link>
+      ),
+      variant: 'default'
+    });
   };
 
   return (
