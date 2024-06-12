@@ -13,7 +13,7 @@ const RestaurantList = async () => {
   });
 
   return (
-    <div className="flex gap-5 overflow-x-scroll">
+    <div className="flex gap-5 overflow-x-scroll md:[&::-webkit-scrollbar]:hidden">
       {restaurants.map((restaurant) => (
         <RestaurantItem
           restaurant={restaurant}

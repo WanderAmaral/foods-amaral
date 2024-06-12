@@ -50,7 +50,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex justify-between pt-6">
+    <div className="flex justify-between pt-6 md:pb-5 ">
       <Link href="/">
         <div className="relative h-[30px] w-[100px]">
           <Image
@@ -64,7 +64,7 @@ const Header = () => {
       </Link>
       <Sheet>
         <SheetTrigger asChild>
-          <div className="icon-button">
+          <div className="icon-button cursor-pointer hover:opacity-50">
             <MenuIcon size={22} />
           </div>
         </SheetTrigger>

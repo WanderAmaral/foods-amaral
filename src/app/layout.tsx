@@ -4,7 +4,7 @@ import "./globals.css";
 import { CartProvider } from "./_context/cart";
 import AuthProvider from "./_providers/next-auth";
 import { Toaster } from "sonner";
-
+import Header from "./_components/header";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -13,7 +13,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Foods Amaral",
-  generator: 'Foods amaral'
+  generator: "Foods amaral",
 };
 
 export default function RootLayout({
@@ -25,10 +25,16 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <AuthProvider>
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            <div className=" hidden md:block md:border-b">
+              <div className=" md:container ">
+                <Header />
+              </div>
+            </div>
+            {children}
+          </CartProvider>
         </AuthProvider>
         <Toaster />
-        
       </body>
     </html>
   );
