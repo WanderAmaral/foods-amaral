@@ -1,13 +1,15 @@
 "use client";
-import { Badge } from "@/app/_components/ui/badge";
+import { Avatar, AvatarImage } from "@/app/_components/ui/avatar";
 import { Button } from "@/app/_components/ui/button";
-import { Card } from "@/app/_components/ui/card";
+import { Card, CardContent } from "@/app/_components/ui/card";
 import { Separator } from "@/app/_components/ui/separator";
+import { CartContext } from "@/app/_context/cart";
 import { formatCurrency } from "@/app/_helpers/price";
-import { Prisma } from "@prisma/client";
-import { ChevronRight } from "lucide-react";
-import Image from "next/image";
+import { OrderStatus, Prisma } from "@prisma/client";
+import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 interface OrderCardProps {
   order: Prisma.OrderGetPayload<{
@@ -15,62 +17,109 @@ interface OrderCardProps {
   }>;
 }
 
+const getOrderStatusLabel = (status: OrderStatus) => {
+  switch (status) {
+    case "CANCELED":
+      return "Cancelado";
+    case "COMPLETED":
+      return "Finalizado";
+    case "CONFIRMED":
+      return "Confirmado";
+    case "DELIVERING":
+      return "Em transporte";
+    case "PREPARING":
+      return "Preparando...";
+  }
+};
+
 const OrderCard = ({ order }: OrderCardProps) => {
+  const { addProductToCart } = useContext(CartContext);
+  const router = useRouter();
+
+  const handleAddRestoredProductToCart = () => {
+    for (const orderProduct of order.products) {
+      addProductToCart({
+        product: {
+          ...orderProduct.product,
+          restaurant: order.restaurant,
+        },
+        quantity: orderProduct.quantity,
+      });
+    }
+    router.push(`/restaurants/${order.restaurantId}`);
+  };
+
   return (
-    <>
-      <Card className="p-0">
-        <div className="px-3">
-          <Badge
-            className="my-4"
-            variant={order.status === "CONFIRMED" ? "green" : "red"}
-          >
-            {order.status}
-          </Badge>
-          <div className="flex justify-between">
-            <div className="flex items-center gap-1">
-              <div className="relative h-6 w-6">
-                <Image
-                  src={order.restaurant.imageUrl}
-                  alt={order.restaurant.name}
-                  fill
-                  className="rounded-full object-cover"
-                />
-              </div>
-              <span className=" text-base font-semibold">
-                {order.restaurant.name}
-              </span>
-            </div>
-            <div className="flex items-end justify-end">
-              <Link href={`/restaurants/${order.restaurantId}`}>
-                <ChevronRight />
-              </Link>
-            </div>
+    <Card>
+      <CardContent className="p-5">
+        <div
+          className={`w-fit rounded-full bg-[#EEEEEE] px-2 py-1 text-muted-foreground ${order.status !== "COMPLETED" && "bg-green-500 text-white"}`}
+        >
+          <span className="block text-xs font-semibold">
+            {getOrderStatusLabel(order.status)}
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between pt-3">
+          <div className="flex items-center gap-2">
+            <Avatar className="h-6 w-6">
+              <AvatarImage src={order.restaurant.imageUrl} />
+            </Avatar>
+
+            <span className="text-sm font-semibold">
+              {order.restaurant.name}
+            </span>
           </div>
-          <Separator className="my-4" />
-          <div className="flex flex-col gap-2">
-            {order.products.map((item) => (
-              <div key={item.id} className="flex items-center gap-2">
-                <Badge className="bg-[#7E8392] text-white">
-                  {item.quantity}
-                </Badge>
-                <span className=" text-sm text-muted-foreground">
-                  {item?.product?.name}
+
+          <Button
+            variant="link"
+            size="icon"
+            className="h-5 w-5 text-black"
+            asChild
+          >
+            <Link href={`/restaurants/${order.restaurantId}`}>
+              <ChevronRightIcon />
+            </Link>
+          </Button>
+        </div>
+
+        <div className="py-3">
+          <Separator />
+        </div>
+
+        <div className="space-y-2">
+          {order.products.map((product) => (
+            <div key={product.id} className="flex items-center gap-2">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-muted-foreground">
+                <span className="block text-xs text-white">
+                  {product.quantity}
                 </span>
               </div>
-            ))}
-          </div>
-          <Separator className="my-4" />
-          <div className="flex items-center justify-between pb-3">
-            <p className="text-sm">
-              R$: {formatCurrency(Number(order.totalPrice))}
-            </p>
-            <Button variant={"ghost"} className="font-semibold text-red-600">
-              Adicionar a sacola
-            </Button>
-          </div>
+              <span className="block text-xs text-muted-foreground">
+                {product.product.name}
+              </span>
+            </div>
+          ))}
         </div>
-      </Card>
-    </>
+
+        <div className="py-3">
+          <Separator />
+        </div>
+
+        <div className="flex items-center justify-between">
+          <p className="text-sm">{formatCurrency(Number(order.totalPrice))}</p>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs text-primary"
+            disabled={order.status !== "COMPLETED"}
+            onClick={handleAddRestoredProductToCart}
+          >
+            Refazer pedido
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
