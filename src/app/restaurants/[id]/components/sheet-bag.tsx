@@ -19,7 +19,7 @@ const SheetBag = () => {
     <>
       {products.length > 0 && (
         <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
-          <div className="flex justify-between py-4 px-4 fixed bottom-0  bg-white w-full">
+          <div className="flex justify-between py-4 px-4 fixed bottom-0  bg-white w-full border-t-2 rounded-tl-xl rounded-tr-xl">
             <div>
               <h1 className="text-xs text-foreground">Total sem entrega</h1>
               <div className="flex gap-2 items-center">

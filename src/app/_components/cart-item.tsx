@@ -34,11 +34,11 @@ const CartItem = ({ product }: CartItemProps) => {
         <div className="flex h-[77px] w-[77px] items-center justify-center rounded-lg bg-accent lg:h-[120px] lg:w-[120px]">
           <Image
             src={product.imageUrl}
-            width={0}
-            height={0}
+            width={100}
+            height={100}
             sizes="100vw"
             alt={product.name}
-            className="h-auto max-h-[70%] w-auto max-w-[80%]"
+            className="rounded-lg border"
           />
         </div>
 
@@ -84,7 +84,7 @@ const CartItem = ({ product }: CartItemProps) => {
 
       <Button
         size="icon"
-        variant='secondary'
+        variant="secondary"
         onClick={handleRemoveProductToCart}
         className="h-8 w-8 lg:h-9 lg:w-9"
       >

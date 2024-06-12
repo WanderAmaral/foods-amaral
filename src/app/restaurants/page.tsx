@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { db } from "../_lib/prisma";
 import { authOptions } from "../_lib/auth";
 import Restaurants from "./_components/page";
+import { Suspense } from "react";
 
 const RestaurantsPage = async () => {
   const session = await getServerSession(authOptions);
@@ -14,7 +15,9 @@ const RestaurantsPage = async () => {
   return (
     <div className=" space-y-2 px-5">
       <div className=" flex flex-col gap-6">
-        <Restaurants userFavoriteRestaurants={userFavoriteRestaurants} />
+        <Suspense fallback={<p>Carregando...</p>}>
+          <Restaurants userFavoriteRestaurants={userFavoriteRestaurants} />
+        </Suspense>
       </div>
     </div>
   );

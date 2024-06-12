@@ -11,59 +11,43 @@ interface RestaurantProps {
   userFavoriteRestaurants: UserFavoriteRestaurant[];
 }
 
-const Restaurants = ({userFavoriteRestaurants}: RestaurantProps) => {
+const Restaurants = ({ userFavoriteRestaurants }: RestaurantProps) => {
   const searchParams = useSearchParams();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
-  useEffect(() => {
-    try {
-      setIsLoading(false);
-      const fetchRestaurants = async () => {
-        const searchFor = searchParams.get("search");
-        if (!searchFor) return;
-
-        const foundRestaurants = await searchForRestaurants(searchFor);
-        setRestaurants(foundRestaurants);
-      };
-      fetchRestaurants();
-      setIsLoading(true);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [searchParams]);
-
   const searchFor = searchParams.get("search");
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      if (!searchFor) return;
+      const foundRestaurants = await searchForRestaurants(searchFor);
+      setRestaurants(foundRestaurants);
+    };
+
+    fetchRestaurants();
+  }, [searchFor]);
 
   if (!searchFor) {
     return notFound();
   }
 
-  if (!isLoading) {
-    return;
-  }
   return (
-    <div className=" space-y-2 px-5">
+    <>
       <Header />
-      {restaurants.length > 0 ? (
-        <h2 className="py-3 text-lg font-semibold">Restaurantes encontrados</h2>
-      ) : (
-        <h2 className="py-3 text-lg font-semibold">
-          Restaurantes não encontrados
-        </h2>
-      )}
-
-      <div className=" flex flex-col gap-6">
-        {restaurants.map((restaurant) => (
-          <RestaurantItem
-            key={restaurant.id}
-            restaurant={restaurant}
-            className="min-w-full max-w-full"
-            userFavoriteRestaurants={userFavoriteRestaurants}
-          />
-        ))}
+      <div className="px-5 py-6">
+        <h2 className="mb-6 text-lg font-semibold">Restaurantes Encontrados</h2>
+        <div className="flex w-full flex-col gap-6">
+          {restaurants.map((restaurant) => (
+            <RestaurantItem
+              key={restaurant.id}
+              restaurant={restaurant}
+              className="min-w-full max-w-full"
+              userFavoriteRestaurants={userFavoriteRestaurants}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

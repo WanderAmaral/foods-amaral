@@ -5,7 +5,7 @@ import CartItem from "./cart-item";
 import { Card, CardContent } from "./ui/card";
 import { Separator } from "./ui/separator";
 import { formatCurrency } from "../_helpers/price";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { Check, Loader2 } from "lucide-react";
 import {
@@ -21,6 +21,7 @@ import {
 import { createOrder } from "@/app/_actions/order";
 import { OrderStatus } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 interface CartProps {
   // eslint-disable-next-line no-unused-vars
@@ -28,6 +29,7 @@ interface CartProps {
 }
 
 const Cart = ({ setIsOpen }: CartProps) => {
+  const router = useRouter();
   const { products, totalPrice, totalDiscounts, subtotalPrice, clearCart } =
     useContext(CartContext);
   const { data } = useSession();
@@ -62,8 +64,16 @@ const Cart = ({ setIsOpen }: CartProps) => {
           },
         },
       });
-      setIsOpen(false);
       clearCart();
+      setIsOpen(false);
+
+      toast("Pedido finalizado com sucesso!", {
+        description: "Você pode acompanhá-lo na tela dos seus pedidos.",
+        action: {
+          label: "Meus Pedidos",
+          onClick: () => router.push("/myrequest"),
+        },
+      });
     } catch (error) {
       console.error(error);
     }
