@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
 import { db } from "../_lib/prisma";
 import { authOptions } from "../_lib/auth";
-import Restaurants from "./_components/page";
+import Restaurants from "./_components/restaurants";
 import { Suspense } from "react";
 
-const RestaurantsPage = async () => {
+export default async function RestaurantsPage() {
   const session = await getServerSession(authOptions);
 
   const userFavoriteRestaurants = await db.userFavoriteRestaurant.findMany({
@@ -21,6 +21,4 @@ const RestaurantsPage = async () => {
       </div>
     </div>
   );
-};
-
-export default RestaurantsPage;
+}

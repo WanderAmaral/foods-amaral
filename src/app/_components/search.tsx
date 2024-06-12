@@ -28,7 +28,7 @@ const Search = () => {
         className="border-none"
         onChange={handleChange}
         value={search}
-      />
+        />
       <Button type="submit">
         <SearchIcon size={22} />
       </Button>

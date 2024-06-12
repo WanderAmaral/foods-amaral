@@ -13,6 +13,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Foods Amaral",
+  generator: 'Foods amaral'
 };
 
 export default function RootLayout({

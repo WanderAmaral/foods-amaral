@@ -30,7 +30,6 @@ const Restaurants = ({ userFavoriteRestaurants }: RestaurantProps) => {
   if (!searchFor) {
     return notFound();
   }
-
   return (
     <>
       <Header />
