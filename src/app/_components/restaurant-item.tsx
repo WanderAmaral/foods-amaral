@@ -31,7 +31,11 @@ const RestaurantItem = ({
     if (!data?.user.id) return;
     try {
       await toggleFavoriteRestaurant(data?.user.id, restaurant.id);
-      toast.success(isFavorite ? "Restaurante removido dos favoritos" : "Restaurantes favoritado!")
+      toast.success(
+        isFavorite
+          ? "Restaurante removido dos favoritos"
+          : "Restaurantes favoritado!",
+      );
     } catch (error) {
       console.log(error);
     }
