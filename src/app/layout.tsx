@@ -28,7 +28,7 @@ export default function RootLayout({
           <CartProvider>
             <div className=" hidden md:block md:border-b">
               <div className=" md:container ">
-                <Header />
+                {/* <Header /> */}
               </div>
             </div>
             {children}

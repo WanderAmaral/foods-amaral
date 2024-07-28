@@ -23,14 +23,14 @@ export default async function Home() {
 
   return (
     <main className="px-5 md:px-0">
-      <div className="md:hidden">
-        <Header />
+      <div className="md:container md:py-5">
+        <Header className="md:border-none md:p-0" />
       </div>
 
       <div className="pt-6 md:hidden">
         <Search />
       </div>
-      <div className="mt-5 hidden h-[500px] bg-[#EA1D2C] md:block">
+      <div className="hidden h-[500px] bg-[#EA1D2C] md:block">
         <div className="container  flex h-full w-full items-center justify-center">
           <div className="flex flex-col justify-center gap-2">
             <h1 className="text-3xl font-bold text-white">Está com Fome?</h1>
