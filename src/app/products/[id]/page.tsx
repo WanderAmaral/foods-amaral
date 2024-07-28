@@ -2,12 +2,17 @@ import { db } from "@/app/_lib/prisma";
 import { notFound } from "next/navigation";
 import ProductImage from "./_components/product-image";
 import ProductInfo from "./_components/product-info";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/_lib/auth";
 
 interface ProductPageProps {
   params: { id: string };
 }
 
 const ProductPage = async ({ params: { id } }: ProductPageProps) => {
+
+  const session = await getServerSession(authOptions)
+
   const product = await db.product.findUnique({
     where: { id },
     include: { restaurant: true },
@@ -30,7 +35,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
   return (
     <>
       <ProductImage product={product} />
-      <ProductInfo product={product} complementaryProducts={juices} />
+      <ProductInfo product={product} complementaryProducts={juices} isAuthenticated={!!session?.user}/>
     </>
   );
 };

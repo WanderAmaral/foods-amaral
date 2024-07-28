@@ -34,15 +34,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/app/_components/ui/alert-dialog";
+import { signIn } from "next-auth/react";
 
 interface ProductInfoProps {
   product: Prisma.ProductGetPayload<{ include: { restaurant: true } }>;
   complementaryProducts: Prisma.ProductGetPayload<{
     include: { restaurant: true };
   }>[];
+  isAuthenticated: boolean;
 }
 
-const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
+const ProductInfo = ({ product, complementaryProducts, isAuthenticated }: ProductInfoProps) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
@@ -63,6 +65,9 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
   };
 
   const handleAddProductToCart = () => {
+    if(!isAuthenticated) {
+      return signIn('google')
+    }
     const hasDifferentRestaurantProduct = products.some(
       (cartProduct) => cartProduct.restaurantId !== product.restaurantId,
     );
@@ -108,7 +113,7 @@ const ProductInfo = ({ product, complementaryProducts }: ProductInfoProps) => {
         <div className="flex flex-col">
           <div className="flex">
             <h2 className="text-xl font-semibold">
-              {formatCurrency(calculateProductTotalPrice(product))} 
+              {formatCurrency(calculateProductTotalPrice(product))}
             </h2>
             {product.discountPercentage && <DiscountBadge product={product} />}
           </div>
