@@ -159,7 +159,7 @@ const Cart = ({ setIsOpen }: CartProps) => {
         )}
       </div>
       <AlertDialog open={isConfirmDialogOpen} onOpenChange={setIsOpen}>
-        <AlertDialogContent className=" flex w-[85%] flex-col rounded-xl ">
+        <AlertDialogContent className=" flex w-[85%] flex-col rounded-xl md:flex md:items-center">
           <AlertDialogHeader>
             <div className="flex justify-center">
               <Check

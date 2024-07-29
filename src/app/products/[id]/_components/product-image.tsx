@@ -17,7 +17,7 @@ const ProductImage = ({ product }: ProductImageProps) => {
   };
 
   return (
-    <div className="relative h-[360px] w-full lg:sticky lg:h-[380px] lg:w-[750px]">
+    <div className="relative h-[360px] w-full lg:sticky lg:h-[500px] lg:w-[600px]">
       <Image
         src={product.imageUrl}
         alt={product.name}

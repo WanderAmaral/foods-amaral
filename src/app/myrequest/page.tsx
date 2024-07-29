@@ -25,7 +25,8 @@ const MyResquest = async () => {
 
   return (
     <>
-      <Header className="md:w-full">
+      <Header className="md:hidden md:w-full px-3" />
+      <Header className="hidden md:block md:w-full">
         <Search className="md:w-3/5" />
       </Header>
       <div className="px-5 md:container">

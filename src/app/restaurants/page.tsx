@@ -14,8 +14,7 @@ export default async function RestaurantsPage() {
 
   return (
     <div className=" space-y-2 px-5">
-      
-      <div className=" flex flex-col gap-6">
+      <div className=" flex flex-col gap-6 md:flex md:flex-row">
         <Suspense fallback={<p>Carregando...</p>}>
           <Restaurants userFavoriteRestaurants={userFavoriteRestaurants} />
         </Suspense>

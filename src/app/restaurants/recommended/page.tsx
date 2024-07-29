@@ -21,16 +21,20 @@ const RecommendedRestaurants = async () => {
     <div className=" space-y-2 px-5">
       <Header />
 
-      <h2 className="text-lg font-semibold py-3">Restaurantes Favoritos</h2>
-      <div className=" flex flex-col gap-6">
-        {restaurants.map((restaurant) => (
-          <RestaurantItem
-            key={restaurant.id}
-            restaurant={restaurant}
-            className="min-w-full max-w-full"
-            userFavoriteRestaurants={userFavoriteRestaurants}
-          />
-        ))}
+      <div className="md:container ">
+        <h2 className="py-3 text-lg font-semibold">
+          Restaurantes Recomendados
+        </h2>
+        <div className=" flex flex-col gap-6 md:flex md:flex-row md:overflow-x-scroll">
+          {restaurants.map((restaurant) => (
+            <RestaurantItem
+              key={restaurant.id}
+              restaurant={restaurant}
+              className="min-w-full max-w-full"
+              userFavoriteRestaurants={userFavoriteRestaurants}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
