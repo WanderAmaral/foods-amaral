@@ -58,9 +58,11 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
 
   return (
     <div>
-      <Header>
-        <Search className="md:w-3/5" />
-      </Header>
+      <div className="hidden md:block ">
+        <Header>
+          <Search className="md:w-3/5" />
+        </Header>
+      </div>
 
       <div className="md:container md:py-5 md:pt-10">
         <div className="lg:flex lg:gap-4">

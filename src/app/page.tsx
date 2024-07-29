@@ -28,7 +28,7 @@ export default async function Home() {
       </div>
 
       <div className="pt-6 md:hidden">
-        <Search />
+        <Search className="md:p-5"/>
       </div>
       <div className="hidden h-[500px] bg-[#EA1D2C] md:block">
         <div className="container  flex h-full w-full items-center justify-center">
@@ -38,7 +38,7 @@ export default async function Home() {
               Com apenas alguns cliques, encontre refeições acessíveis perto de
               você
             </p>
-            <Search />
+            <Search className="md:p-5"/>
           </div>
         </div>
       </div>

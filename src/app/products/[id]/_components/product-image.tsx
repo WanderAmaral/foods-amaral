@@ -17,15 +17,15 @@ const ProductImage = ({ product }: ProductImageProps) => {
   };
 
   return (
-    <div className="relative h-[360px] w-full">
+    <div className="relative h-[360px] w-full lg:sticky lg:h-[380px] lg:w-[750px]">
       <Image
         src={product.imageUrl}
         alt={product.name}
         fill
-        className=" object-cover"
+        className="object-cover md:rounded-xl"
       />
       <Button
-        className="absolute left-4 top-4 rounded-3xl bg-white text-foreground "
+        className="absolute left-4 top-4 rounded-3xl bg-white text-foreground md:hidden"
         variant={"secondary"}
         size={"icon"}
         onClick={handleClickBack}

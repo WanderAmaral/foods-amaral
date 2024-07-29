@@ -35,6 +35,8 @@ import {
   AlertDialogTitle,
 } from "@/app/_components/ui/alert-dialog";
 import { signIn } from "next-auth/react";
+import Header from "@/app/_components/header";
+import Search from "@/app/_components/search";
 
 interface ProductInfoProps {
   product: Prisma.ProductGetPayload<{ include: { restaurant: true } }>;
@@ -44,7 +46,11 @@ interface ProductInfoProps {
   isAuthenticated: boolean;
 }
 
-const ProductInfo = ({ product, complementaryProducts, isAuthenticated }: ProductInfoProps) => {
+const ProductInfo = ({
+  product,
+  complementaryProducts,
+  isAuthenticated,
+}: ProductInfoProps) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
@@ -65,8 +71,8 @@ const ProductInfo = ({ product, complementaryProducts, isAuthenticated }: Produc
   };
 
   const handleAddProductToCart = () => {
-    if(!isAuthenticated) {
-      return signIn('google')
+    if (!isAuthenticated) {
+      return signIn("google");
     }
     const hasDifferentRestaurantProduct = products.some(
       (cartProduct) => cartProduct.restaurantId !== product.restaurantId,
@@ -91,8 +97,14 @@ const ProductInfo = ({ product, complementaryProducts, isAuthenticated }: Produc
     });
   };
 
+
   return (
-    <div className="relative z-50 mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-white p-4">
+    <div className="relative z-50 mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-white p-4 md:container md:mt-0 md:z-0 ">
+      <div className="hidden md:block ">
+        <Header>
+          <Search className="md:w-3/5" />
+        </Header>
+      </div>
       <div className="flex items-center gap-[0.375rem]">
         <div className="relative h-6 w-6">
           <Image

@@ -10,8 +10,7 @@ interface ProductPageProps {
 }
 
 const ProductPage = async ({ params: { id } }: ProductPageProps) => {
-
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   const product = await db.product.findUnique({
     where: { id },
@@ -34,8 +33,14 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
 
   return (
     <>
-      <ProductImage product={product} />
-      <ProductInfo product={product} complementaryProducts={juices} isAuthenticated={!!session?.user}/>
+      <div className="hidden md:hidden">
+        <ProductImage product={product} />
+      </div>
+      <ProductInfo
+        product={product}
+        complementaryProducts={juices}
+        isAuthenticated={!!session?.user}
+      />
     </>
   );
 };
