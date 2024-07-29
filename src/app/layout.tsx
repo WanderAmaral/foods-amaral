@@ -4,7 +4,6 @@ import "./globals.css";
 import { CartProvider } from "./_context/cart";
 import AuthProvider from "./_providers/next-auth";
 import { Toaster } from "sonner";
-import Header from "./_components/header";
 
 const poppins = Poppins({
   subsets: ["latin"],
