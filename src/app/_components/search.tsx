@@ -28,7 +28,7 @@ const Search = ({ className }: SearchProps) => {
 
   return (
     <form
-      className={cn("flex gap-3 md:rounded-xl md:bg-white md:p-5", className)}
+      className={cn("flex gap-3 md:rounded-xl md:bg-white md:p-", className)}
       onSubmit={handleSearchSubmit}
     >
       <Input

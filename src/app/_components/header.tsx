@@ -56,7 +56,7 @@ const Header = ({ children, className }: HeaderProps) => {
   };
 
   return (
-    <div className={cn("border-b pt-6", className)}>
+    <div className={cn("border-b py-5", className)}>
       <div className="flex items-center justify-between  md:container  md:py-2">
         <Link href="/">
           <div className="relative h-[30px] w-[100px]">
